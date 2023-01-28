@@ -1,34 +1,38 @@
 import imaplib
-import email
 import time
+import re
 
-username = "exemplosolar@gmail.com"
-password = "rcnenggouxpcnhbf"
-subject = "Fwd: Código de segurança da Energisa".encode('utf-8')
+username = 'exemplosolar@gmail.com'
+password = 'rcnenggouxpcnhbf'
+subject = 'Fwd: Código de segurança da Energisa'.encode('utf-8')
+regex_match_name = r'Ol=C3=A1, ([A-Za-z0-9]+( [A-Za-z0-9]+)+)!'
+regex_match_security_code = r'[\r\n]+([0-9])[\r\n]+([0-9])[\r\n]+([0-9])[\r\n]+([0-9])'
 
 
 def check_email():
-    # Connect to the email server
-    connection = imaplib.IMAP4_SSL("imap.gmail.com", 993)
+    connection = imaplib.IMAP4_SSL('imap.gmail.com', 993)
     connection.login(username, password)
 
-    # Select the inbox folder
-    connection.select("inbox")
+    connection.select('inbox')
     connection.literal = subject
 
-    status, messages = connection.search(
+    status, emails = connection.search(
         'utf-8', 'SUBJECT')
 
-    for msg_id in messages[0].split():
-        status, msg_data = connection.fetch(msg_id, "(RFC822)")
-        for response in msg_data:
-            if isinstance(response, tuple):
-                msg = email.message_from_bytes(response[1])
-                security_code = msg.get_payload()[0].get_payload()
-                name = msg.get_payload()[1].get_payload()
+    for email_id in emails[0].split():
+        status, email_data = connection.fetch(email_id, '(RFC822)')
+        email_body = email_data[0][1].decode('utf-8')
 
-                print("Name:", name)
-                print("Security Code:", security_code)
+        match_name = re.search(regex_match_name, email_body)
+        match_security_code = re.search(regex_match_security_code, email_body)
+
+        if match_name and match_security_code:
+            name = match_name.group(1)
+            security_code = match_security_code.group(1, 2, 3, 4)
+            print(f'Name: {name}')
+            print(f'Security Code: {security_code}')
+        else:
+            print('Unable to find name and security code in email.')
 
     connection.close()
     connection.logout()
