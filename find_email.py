@@ -5,7 +5,8 @@ import re
 username = 'exemplosolar@gmail.com'
 password = 'rcnenggouxpcnhbf'
 subject = 'Fwd: Código de segurança da Energisa'.encode('utf-8')
-regex_match_name = r'Ol=C3=A1, ([A-Za-z0-9]+( [A-Za-z0-9]+)+)!'
+
+regex_match_name = r', ([A-Za-z0-9]+( [A-Za-z0-9]+)+)!'
 regex_match_security_code = r'[\r\n]+([0-9])[\r\n]+([0-9])[\r\n]+([0-9])[\r\n]+([0-9])'
 
 
@@ -17,7 +18,7 @@ def check_email():
     connection.literal = subject
 
     status, emails = connection.search(
-        'utf-8', 'SUBJECT')
+        'utf-8', 'UNSEEN SUBJECT')
 
     for email_id in emails[0].split():
         status, email_data = connection.fetch(email_id, '(RFC822)')
@@ -32,13 +33,15 @@ def check_email():
             print(f'Name: {name}')
             print(f'Security Code: {security_code}')
         else:
-            print('Unable to find name and security code in email.')
+            print('Unable to find name and security code in email')
+
+        status, email_data = connection.store(email_id, '+FLAGS', '\\Seen')
 
     connection.close()
     connection.logout()
+    print('Finish processing')
 
 
-# run the check_email function in an infinite loop
 while True:
     check_email()
-    time.sleep(30)  # Wait 30 seconds
+    time.sleep(10)
