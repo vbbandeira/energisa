@@ -10,3 +10,9 @@ O objetivo desse requisito eh ler o codigo de seguranca que foi enviado por emai
 	- Imprimir o nome do usuario (no caso de exemplo, FERNANDA BRITO BANDEIRA)
 	- Imprimir o codigo de seguranca na tela (no caso de exemplo, 3740)
 	- O codigo deve estar bem estruturado e simples, seguindo pelo menos as diretrizes PEP 8.
+
+
+## Instalação das dependências usando pip:
+
+- IMAP4: ```pip install imaplib```
+- Celery: ```pip install -U Celery```
