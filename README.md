@@ -16,3 +16,4 @@ O objetivo desse requisito eh ler o codigo de seguranca que foi enviado por emai
 
 - IMAP4: ```pip install imaplib```
 - Celery: ```pip install -U Celery```
+- É necessário estar executando o Redis na porta 6379, basta iniciá-lo: ```docker run --name redis -d redis```
