@@ -45,8 +45,8 @@ def monitor_inbox(username: str, password: str, subject: str) -> None:
     # connection.logout()
 
 
-USERNAME = 'exemplosolar@gmail.com'
-PASSWORD = 'rcnenggouxpcnhbf'
-SUBJECT = 'Fwd: Código de segurança da Energisa'.encode('utf-8')
+USERNAME = 'exemplo@gmail.com'
+PASSWORD = 'cnoghbgnfuxprcne'
+SUBJECT = 'Fwd: Código de segurança'.encode('utf-8')
 
 monitor_inbox(USERNAME, PASSWORD, SUBJECT)
