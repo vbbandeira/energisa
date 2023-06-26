@@ -1,7 +1,6 @@
 import imaplib
 import re
 
-
 def extract_data(email_body: str) -> str:
     match_name = re.search(r', ([A-Za-z0-9]+( [A-Za-z0-9]+)+)!', email_body)
     match_security_code = re.search(
@@ -14,7 +13,6 @@ def extract_data(email_body: str) -> str:
         return name, security_code
     else:
         return None
-
 
 def monitor_inbox(username: str, password: str, subject: str) -> None:
     connection = imaplib.IMAP4_SSL('imap.gmail.com', 993)
